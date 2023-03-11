@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from sendMail import send_mail
 
 app = Flask(__name__)
 
@@ -54,6 +55,7 @@ def submit():
             data = Feedback(customer, dealer, rating, comments)
             db.session.add(data)
             db.session.commit()
+            send_mail(customer, dealer, rating, comments); 
             return render_template('success.html')
         
         return render_template('index.html', message='Your feedback is already submitted!!')
